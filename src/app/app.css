@@ -239,3 +239,11 @@
   .products-grid { grid-template-columns: repeat(2, 1fr); gap: .75rem; }
   .toast-omni { bottom: 1rem; right: 1rem; left: 1rem; max-width: unset; }
 }
+
+.ver-mas {
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ver-mas:hover { text-decoration: underline; }

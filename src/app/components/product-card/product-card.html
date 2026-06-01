@@ -17,7 +17,10 @@
       <i class="bi bi-star"      *ngFor="let s of product.rating | stars: false"></i>
     </div>
     <h3 class="card-title">{{ product.nombre }}</h3>
-    <p class="card-desc">{{ product.descripcion }}</p>
+   <p class="card-desc">
+  {{ product.descripcion | slice:0:80 }}...
+  <span class="ver-mas" (click)="onVerDetalles(); $event.stopPropagation()">ver más</span>
+</p>
 
     <!-- Precio -->
     <div class="price-block">
@@ -42,13 +45,21 @@
   </div>
 
   <!-- Footer -->
-  <div class="card-footer">
-    <span class="tag-chip">{{ product.tag }}</span>
+ <div class="card-footer">
+  <span class="tag-chip">{{ product.tag }}</span>
+  <div class="footer-btns">
+    <button class="btn-agregar-rapido"
+            (click)="onAgregarRapido()"
+            [disabled]="product.stock === 0"
+            title="Agregar al carrito">
+      <i class="bi bi-cart-plus"></i>
+    </button>
     <button class="btn-detalles"
             (click)="onVerDetalles()"
             [disabled]="product.stock === 0">
       <i class="bi bi-eye me-1"></i> Detalles
     </button>
   </div>
+</div>
 
 </div>

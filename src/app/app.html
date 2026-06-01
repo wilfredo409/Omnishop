@@ -76,10 +76,11 @@
   <!-- GRID DE PRODUCTOS -->
   <div class="products-grid" *ngIf="productosFiltrados().length > 0">
     <app-product-card
-      *ngFor="let p of productosFiltrados()"
-      [product]="p"
-      (verDetalles)="abrirModal($event)"
-    ></app-product-card>
+  *ngFor="let p of productosFiltrados()"
+  [product]="p"
+  (verDetalles)="abrirModal($event)"
+  (toastMsg)="onToast($event)"
+></app-product-card>
   </div>
 
   <!-- SIN RESULTADOS -->
