@@ -1,0 +1,90 @@
+<!-- ─── OVERLAY DEL CARRITO ─── -->
+<div class="modal-overlay" (click)="onCerrar()">
+
+  <div class="modal-box" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="modal-hdr">
+      <span><i class="bi bi-cart3 me-2"></i> Carrito de Compra</span>
+      <button class="close-btn" (click)="onCerrar()"><i class="bi bi-x-lg"></i></button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-bdy">
+
+      <!-- Estado vacío -->
+      <div class="empty-state" *ngIf="cartService.items().length === 0">
+        <i class="bi bi-cart-x"></i>
+        <p>Tu carrito está vacío</p>
+        <small>¡Agrega algunos productos para comenzar!</small>
+      </div>
+
+      <!-- Tabla de productos -->
+      <div class="table-wrap" *ngIf="cartService.items().length > 0">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio Unit.</th>
+              <th>Cantidad</th>
+              <th>Sub Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cartService.items()">
+              <!-- Producto -->
+              <td>
+                <div class="item-name-wrap">
+                  <img [src]="item.product.imagen" [alt]="item.product.nombre" class="item-thumb" />
+                  <span class="item-name">{{ item.product.nombre }}</span>
+                </div>
+              </td>
+              <!-- Precio unitario -->
+              <td>${{ item.precioFinal | number:'1.2-2' }}</td>
+              <!-- Cantidad con controles -->
+              <td>
+                <div class="qty-ctrl">
+                  <button class="qty-btn" (click)="decrementar(item.product.id)">−</button>
+                  <span class="qty-val">{{ item.cantidad }}</span>
+                  <button class="qty-btn" (click)="incrementar(item.product.id)">+</button>
+                </div>
+              </td>
+              <!-- Subtotal -->
+              <td class="subtotal">${{ (item.precioFinal * item.cantidad) | number:'1.2-2' }}</td>
+              <!-- Eliminar -->
+              <td>
+                <button class="btn-remove" (click)="eliminar(item.product.id)" title="Eliminar">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td colspan="3">Total a Pagar:</td>
+              <td colspan="2" class="total-val">${{ cartService.total() | number:'1.2-2' }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- Footer con botones -->
+    <div class="modal-ftr">
+      <button class="btn-cerrar" (click)="onCerrar()">
+        <i class="bi bi-x-circle me-1"></i> Cerrar
+      </button>
+      <button
+        class="btn-pagar"
+        *ngIf="cartService.items().length > 0"
+        (click)="onPagar()"
+      >
+        <i class="bi bi-credit-card me-1"></i>
+        Pagar ${{ cartService.total() | number:'1.2-2' }}
+      </button>
+    </div>
+
+  </div>
+</div>

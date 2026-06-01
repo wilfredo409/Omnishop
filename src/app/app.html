@@ -1,0 +1,123 @@
+<!-- ─── NAVBAR ─── -->
+<app-navbar
+  [busquedaGlobal]="busquedaGlobal()"
+  (busquedaChange)="onBusquedaGlobalChange($event)"
+  (abrirCarrito)="abrirCarrito()"
+></app-navbar>
+
+<!-- ─── HERO SLIDER ─── -->
+<app-hero-slider
+  (categoriaSeleccionada)="setCategoriaTab($event)"
+></app-hero-slider>
+
+<!-- ─── CATEGORY TABS ─── -->
+<div class="cat-strip" id="productos">
+  <a class="cat-tab" [class.active]="categoriaActiva() === ''"
+     (click)="setCategoriaTab('')">Todo</a>
+  <a class="cat-tab"
+     *ngFor="let cat of categorias()"
+     [class.active]="categoriaActiva() === cat"
+     (click)="setCategoriaTab(cat)">{{ cat }}</a>
+</div>
+
+<!-- ─── MAIN CONTENT ─── -->
+<div class="main-wrap">
+
+  <!-- PRODUCTOS DESTACADOS: muestra los de la categoría activa (o todos si no hay filtro) -->
+  <section class="featured-section" *ngIf="productosDestacados().length > 0 && busquedaGlobal() === ''">
+    <h2 class="section-title">
+      ⭐ Destacados
+      <span>{{ categoriaActiva() ? '— ' + categoriaActiva() : '' }}</span>
+    </h2>
+    <div class="featured-scroll">
+      <div class="featured-card"
+           *ngFor="let p of productosDestacados()"
+           (click)="abrirModal(p)">
+        <img [src]="p.imagen" [alt]="p.nombre" />
+        <div class="featured-info">
+          <p class="featured-name">{{ p.nombre }}</p>
+          <div class="featured-price">
+            <ng-container *ngIf="p.descuento > 0; else featNormal">
+              ${{ precioFinal(p) | number:'1.2-2' }}
+              <span class="feat-orig">${{ p.precio | number:'1.2-2' }}</span>
+            </ng-container>
+            <ng-template #featNormal>${{ p.precio | number:'1.2-2' }}</ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENCABEZADO + FILTROS -->
+  <div class="section-header">
+    <h2 class="section-title">
+      Productos de la categoría:
+      <span>{{ categoriaActiva() || 'Todos' }}</span>
+    </h2>
+    <div class="filter-bar">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar producto..."
+        [value]="filtroBusqueda()"
+        (input)="onFiltroBusquedaChange($any($event.target).value)"
+      />
+      <select
+        class="cat-select"
+        [value]="categoriaActiva()"
+        (change)="setCategoriaTab($any($event.target).value)"
+      >
+        <option value="">Todas</option>
+        <option *ngFor="let cat of categorias()" [value]="cat">{{ cat }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- GRID DE PRODUCTOS -->
+  <div class="products-grid" *ngIf="productosFiltrados().length > 0">
+    <app-product-card
+      *ngFor="let p of productosFiltrados()"
+      [product]="p"
+      (verDetalles)="abrirModal($event)"
+    ></app-product-card>
+  </div>
+
+  <!-- SIN RESULTADOS -->
+  <div class="no-results" *ngIf="productosFiltrados().length === 0">
+    <i class="bi bi-search"></i>
+    <p>No se encontraron productos para
+      <strong>{{ filtroBusqueda() || busquedaGlobal() }}</strong>
+    </p>
+    <button class="btn-clear" (click)="onFiltroBusquedaChange(''); onBusquedaGlobalChange('')">
+      Limpiar búsqueda
+    </button>
+  </div>
+
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="footer">
+  <p>© 2026 <span>OmniShop</span> – Todo lo que necesitas en un solo lugar.</p>
+  <p class="footer-sub">Desarrollado con Angular 21 · Bootstrap 5.3 · TypeScript</p>
+</footer>
+
+<!-- ─── MODAL PRODUCTO ─── -->
+<app-product-modal
+  [product]="productoSeleccionado()"
+  (cerrar)="cerrarModal()"
+  (productoAgregado)="onProductoAgregado($event)"
+  (toastMsg)="onToast($event)"
+></app-product-modal>
+
+<!-- ─── MODAL CARRITO ─── -->
+<app-cart-modal
+  *ngIf="mostrarCartModal()"
+  (cerrar)="cerrarCarrito()"
+  (toastMsg)="onToast($event)"
+></app-cart-modal>
+
+<!-- ─── TOAST ─── -->
+<div class="toast-omni" [class.show]="toastVisible()" [class.error]="toastTipo() === 'error'">
+  <i class="bi" [ngClass]="toastTipo() === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'"></i>
+  <span>{{ toastMensaje() }}</span>
+</div>

@@ -1,0 +1,241 @@
+/* ─── CATEGORY TABS ─── */
+.cat-strip {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+}
+.cat-strip::-webkit-scrollbar { height: 3px; }
+.cat-strip::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+.cat-tab {
+  display: inline-block;
+  padding: .9rem 1.1rem;
+  font-family: 'Syne', sans-serif;
+  font-size: .87rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: color .2s, border-color .2s;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+}
+.cat-tab:hover  { color: var(--accent); }
+.cat-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ─── MAIN WRAP — ancho reducido ─── */
+.main-wrap {
+  padding: 2rem 1.5rem;
+  max-width: 1200px;   /* reducido de 1400px */
+  margin: 0 auto;
+}
+
+/* ─── FEATURED SECTION ─── */
+.featured-section { margin-bottom: 2.5rem; }
+
+.featured-scroll {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: .5rem;
+  -webkit-overflow-scrolling: touch;
+}
+.featured-scroll::-webkit-scrollbar { height: 4px; }
+.featured-scroll::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+.featured-card {
+  min-width: 200px;
+  background: var(--primary);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform .22s;
+}
+.featured-card:hover { transform: translateY(-3px); }
+.featured-card img { width: 100%; height: 150px; object-fit: cover; opacity: .65; display: block; }
+
+.featured-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,.85));
+  padding: 1.2rem .85rem .85rem;
+}
+.featured-name {
+  font-family: 'Syne', sans-serif;
+  font-size: .88rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 .2rem;
+  line-height: 1.3;
+}
+.featured-price {
+  font-family: 'Syne', sans-serif;
+  font-size: .85rem;
+  color: var(--accent);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.feat-orig {
+  font-size: .75rem;
+  color: rgba(255,255,255,.5);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+/* ─── SECTION HEADER ─── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: nowrap;   /* evita que se rompa en pantallas medianas */
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.section-title span { color: var(--accent); }
+
+/* ─── FILTER BAR — siempre en línea ─── */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  flex-shrink: 0;   /* no encoge cuando el título es largo */
+}
+
+.search-input {
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  padding: .42rem 1rem .42rem 2.1rem;
+  font-size: .85rem;
+  outline: none;
+  width: 160px;
+  background: var(--surface)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E")
+    no-repeat .75rem center;
+  transition: border-color .2s, width .2s;
+}
+.search-input:focus { border-color: var(--accent); width: 200px; }
+
+.cat-select {
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  padding: .42rem .9rem;
+  font-size: .85rem;
+  background: var(--surface);
+  outline: none;
+  cursor: pointer;
+  transition: border-color .2s;
+  max-width: 150px;
+}
+.cat-select:focus { border-color: var(--accent); }
+
+/* ─── PRODUCT GRID ─── */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+@media (min-width: 1100px) {
+  .products-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ─── NO RESULTS ─── */
+.no-results {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--text-muted);
+}
+.no-results i { font-size: 3rem; display: block; margin-bottom: .75rem; }
+.btn-clear {
+  margin-top: .75rem;
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  padding: .5rem 1.3rem;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  background: var(--primary);
+  color: #aaa;
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 3rem;
+}
+.footer p { margin: 0; font-size: .88rem; }
+.footer span { color: var(--accent); font-weight: 700; }
+.footer-sub { font-size: .75rem !important; margin-top: .3rem !important; opacity: .6; }
+
+/* ─── TOAST ─── */
+.toast-omni {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  background: var(--green);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  padding: 1rem 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 12px 48px rgba(0,0,0,.2);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .9rem;
+  transform: translateY(calc(100% + 3rem));
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+  max-width: 340px;
+}
+.toast-omni.show  { transform: translateY(0); }
+.toast-omni.error { background: var(--red); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .section-header {
+    flex-wrap: wrap;
+  }
+  .section-title {
+    white-space: normal;
+    font-size: 1.1rem;
+  }
+  .filter-bar {
+    width: 100%;
+    flex-wrap: nowrap;  /* buscador y select SIEMPRE en la misma línea */
+  }
+  .search-input {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+  }
+  .search-input:focus { width: auto; }
+  .cat-select {
+    flex-shrink: 0;
+    max-width: 130px;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-wrap { padding: 1rem .75rem; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: .75rem; }
+  .toast-omni { bottom: 1rem; right: 1rem; left: 1rem; max-width: unset; }
+}

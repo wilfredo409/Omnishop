@@ -1,0 +1,27 @@
+<!-- ─── NAVBAR PRINCIPAL ─── -->
+<nav class="navbar-omni">
+  <!-- Logo / Brand -->
+  <a class="brand" href="#">Omni<span>Shop</span></a>
+
+  <!-- Barra de búsqueda global (oculta en móvil) -->
+  <div class="nav-search-wrap">
+    <input
+      type="text"
+      class="nav-search"
+      placeholder="Buscar en OmniShop..."
+      [(ngModel)]="busquedaGlobal"
+      (ngModelChange)="onBusquedaChange()"
+    />
+  </div>
+
+  <!-- Botón carrito -->
+  <button class="cart-btn" (click)="onAbrirCarrito()" [class.has-items]="cartService.totalUnidades() > 0">
+    <i class="bi bi-cart3"></i>
+    <span class="cart-label">
+      {{ cartService.total() > 0 ? ('$' + cartService.total().toFixed(2)) : 'Mi Carrito' }}
+    </span>
+    <span class="cart-badge" *ngIf="cartService.totalUnidades() > 0">
+      {{ cartService.totalUnidades() }}
+    </span>
+  </button>
+</nav>

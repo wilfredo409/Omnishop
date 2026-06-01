@@ -1,0 +1,81 @@
+<!-- ─── OVERLAY ─── -->
+<div class="modal-overlay" *ngIf="product" (click)="onCancelar()">
+
+  <!-- Modal container (stopPropagation evita cerrar al hacer clic dentro) -->
+  <div class="modal-box" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="modal-hdr">
+      <span><i class="bi bi-bag me-2"></i> Detalles del Producto</span>
+      <button class="close-btn" (click)="onCancelar()"><i class="bi bi-x-lg"></i></button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-bdy">
+
+      <!-- Imagen -->
+      <img [src]="product!.imagen" [alt]="product!.nombre" class="modal-img" />
+
+      <!-- Nombre y precio -->
+      <div class="name-price-row">
+        <h2 class="modal-name">{{ product!.nombre }}</h2>
+        <div class="modal-price-block">
+          <ng-container *ngIf="product!.descuento > 0; else normalModalPrice">
+            <span class="modal-price-orig">${{ product!.precio | number:'1.2-2' }}</span>
+            <span class="modal-price-final discounted">${{ precioFinal | number:'1.2-2' }}</span>
+            <span class="save-badge">Ahorra {{ product!.descuento }}%</span>
+          </ng-container>
+          <ng-template #normalModalPrice>
+            <span class="modal-price-final">${{ product!.precio | number:'1.2-2' }}</span>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Estrellas y categoría -->
+      <div class="meta-row">
+        <div class="stars">
+          <i class="bi bi-star-fill" *ngFor="let s of product!.rating | stars: true"></i>
+          <i class="bi bi-star"      *ngFor="let s of product!.rating | stars: false"></i>
+        </div>
+        <span class="cat-label">· {{ product!.categoria }}</span>
+      </div>
+
+      <!-- Descripción -->
+      <p class="modal-desc">{{ product!.descripcion }}</p>
+
+      <!-- Chips de info -->
+      <div class="chips-row">
+        <span class="chip"><i class="bi bi-tag me-1"></i>{{ product!.tag }}</span>
+        <span class="chip"><i class="bi bi-box-seam me-1"></i>Stock: {{ product!.stock }}</span>
+        <span class="chip red" *ngIf="product!.descuento > 0">
+          <i class="bi bi-percent me-1"></i>{{ product!.descuento }}% descuento
+        </span>
+      </div>
+
+      <!-- Selector de cantidad -->
+      <div class="qty-row">
+        <span class="qty-label">Cantidad:</span>
+        <div class="qty-ctrl">
+          <button class="qty-btn" (click)="decrementar()">−</button>
+          <span class="qty-val">{{ cantidad }}</span>
+          <button class="qty-btn" (click)="incrementar()">+</button>
+        </div>
+        <span class="subtotal-label">
+          Total: <strong>${{ subtotal | number:'1.2-2' }}</strong>
+        </span>
+      </div>
+
+    </div>
+
+    <!-- Footer con botones -->
+    <div class="modal-ftr">
+      <button class="btn-cancel" (click)="onCancelar()">
+        <i class="bi bi-x-circle me-1"></i> Cancelar
+      </button>
+      <button class="btn-add" (click)="onAgregar()">
+        <i class="bi bi-cart-plus me-1"></i> Agregar
+      </button>
+    </div>
+
+  </div>
+</div>

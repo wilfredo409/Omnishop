@@ -1,0 +1,54 @@
+<!-- ─── TARJETA DE PRODUCTO ─── -->
+<div class="product-card">
+
+  <!-- Imagen con badges -->
+  <div class="card-img-wrap" (click)="onVerDetalles()">
+    <img [src]="product.imagen" [alt]="product.nombre" loading="lazy" />
+    <span class="badge-tag">{{ product.tag }}</span>
+    <span class="badge-discount" *ngIf="product.descuento > 0">-{{ product.descuento }}%</span>
+    <!-- Badge de sin stock -->
+    <div class="badge-nostock" *ngIf="product.stock === 0">Sin Stock</div>
+  </div>
+
+  <!-- Cuerpo -->
+  <div class="card-body">
+    <div class="stars">
+      <i class="bi bi-star-fill" *ngFor="let s of product.rating | stars: true"></i>
+      <i class="bi bi-star"      *ngFor="let s of product.rating | stars: false"></i>
+    </div>
+    <h3 class="card-title">{{ product.nombre }}</h3>
+    <p class="card-desc">{{ product.descripcion }}</p>
+
+    <!-- Precio -->
+    <div class="price-block">
+      <ng-container *ngIf="product.descuento > 0; else normalPrice">
+        <span class="price-original">${{ product.precio | number:'1.2-2' }}</span>
+        <span class="price-discounted">${{ product.precio | discountPrice: product.descuento | number:'1.2-2' }}</span>
+      </ng-container>
+      <ng-template #normalPrice>
+        <span class="price-normal">${{ product.precio | number:'1.2-2' }}</span>
+      </ng-template>
+    </div>
+
+    <!-- Stock indicator -->
+    <div class="stock-row">
+      <i class="bi bi-box-seam"></i>
+      <span [class.low-stock]="product.stock > 0 && product.stock <= 5"
+            [class.no-stock]="product.stock === 0">
+        <ng-container *ngIf="product.stock > 0">{{ product.stock }} en stock</ng-container>
+        <ng-container *ngIf="product.stock === 0">Sin stock</ng-container>
+      </span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="card-footer">
+    <span class="tag-chip">{{ product.tag }}</span>
+    <button class="btn-detalles"
+            (click)="onVerDetalles()"
+            [disabled]="product.stock === 0">
+      <i class="bi bi-eye me-1"></i> Detalles
+    </button>
+  </div>
+
+</div>
