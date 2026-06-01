@@ -84,12 +84,16 @@ export class App implements OnInit {
 
   /** Cambia la categoría activa, limpia búsqueda y hace scroll suave */
   setCategoriaTab(cat: string): void {
-    this.categoriaActiva.set(cat);
-    this.filtroBusqueda.set('');
-    setTimeout(() => {
-      document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth' });
-    }, 50);
-  }
+  this.categoriaActiva.set(cat);
+  this.filtroBusqueda.set('');
+  setTimeout(() => {
+    const el = document.getElementById('productos');
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 64;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, 50);
+}
 
   onFiltroBusquedaChange(val: string): void { this.filtroBusqueda.set(val); }
   onBusquedaGlobalChange(val: string):  void { this.busquedaGlobal.set(val); }
