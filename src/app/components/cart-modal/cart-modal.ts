@@ -62,13 +62,21 @@ export class CartModalComponent {
    * 3. Cierra el modal
    * 4. Emite un mensaje de éxito con el total pagado
    */
-  onPagar(): void {
-    const total = this.cartService.total();
-    this.cartService.clearCart();
-    this.cerrar.emit();
-    this.toastMsg.emit({
-      msg: `¡Pago exitoso! $${total.toFixed(2)} procesados. ¡Gracias por tu compra!`,
-      tipo: 'success'
-    });
-  }
+@Output() stockReducido = new EventEmitter<{ productoId: number; cantidad: number }[]>();
+
+onPagar(): void {
+  const total = this.cartService.total();
+  // Emitir los items antes de limpiar el carrito
+  const itemsVendidos = this.cartService.items().map(i => ({
+    productoId: i.product.id,
+    cantidad: i.cantidad
+  }));
+  this.cartService.clearCart();
+  this.stockReducido.emit(itemsVendidos);
+  this.cerrar.emit();
+  this.toastMsg.emit({
+    msg: `¡Pago exitoso! $${total.toFixed(2)} procesados. ¡Gracias por tu compra!`,
+    tipo: 'success'
+  });
+}
 }

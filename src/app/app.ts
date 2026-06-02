@@ -108,15 +108,9 @@ export class App implements OnInit {
    * Recibe el evento del modal de producto cuando se agrega un item.
    * Reduce el stock del producto en la lista local para reflejarlo en las tarjetas.
    */
-  onProductoAgregado(event: { productoId: number; cantidad: number }): void {
-    this.productos.update(lista =>
-      lista.map(p =>
-        p.id === event.productoId
-          ? { ...p, stock: p.stock - event.cantidad }
-          : p
-      )
-    );
-  }
+ onProductoAgregado(event: { productoId: number; cantidad: number }): void {
+  // La reducción de stock ocurre al confirmar el pago
+}
 
   mostrarToast(msg: string, tipo: 'success' | 'error'): void {
     clearTimeout(this.toastTimer);
@@ -135,4 +129,17 @@ export class App implements OnInit {
       ? parseFloat((p.precio * (1 - p.descuento / 100)).toFixed(2))
       : p.precio;
   }
+
+onStockReducido(items: { productoId: number; cantidad: number }[]): void {
+  this.productos.update(lista =>
+    lista.map(p => {
+      const vendido = items.find(i => i.productoId === p.id);
+      return vendido ? { ...p, stock: p.stock - vendido.cantidad } : p;
+    })
+  );
+}
+
+
+
+
 }

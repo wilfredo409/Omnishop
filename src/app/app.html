@@ -80,6 +80,7 @@
   [product]="p"
   (verDetalles)="abrirModal($event)"
   (toastMsg)="onToast($event)"
+  (productoAgregado)="onProductoAgregado($event)"
 ></app-product-card>
   </div>
 
@@ -115,6 +116,7 @@
   *ngIf="mostrarCartModal()"
   (cerrar)="cerrarCarrito()"
   (toastMsg)="onToast($event)"
+  (stockReducido)="onStockReducido($event)"
 ></app-cart-modal>
 
 <!-- ─── TOAST ─── -->
